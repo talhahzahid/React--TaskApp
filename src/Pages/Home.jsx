@@ -1,12 +1,14 @@
-import React, { useRef, useState } from 'react'
-import { collection, addDoc ,getDocs } from "firebase/firestore";
+import React, { useEffect, useRef, useState } from 'react'
+import { collection, addDoc, getDocs , deleteDoc , doc} from "firebase/firestore";
 import { db } from '../Config/Firebase/Firebaseconfig';
+import { MdModeEdit } from "react-icons/md";
+
 
 
 
 const Home = () => {
-  
-  const [data , setData] = useState([])
+
+  const [data, setData] = useState([])
 
   const title = useRef()
   const task = useRef()
@@ -16,13 +18,16 @@ const Home = () => {
     event.preventDefault();
     console.log(title.current.value);
     console.log(task.current.value);
+    const currentDate = new Date();
+    console.log(currentDate.toDateString());
     // send data to firebase 
     try {
       const docRef = await addDoc(collection(db, "users task"), {
         title: title.current.value,
         task: task.current.value,
-        // born: 1815
+        date: currentDate.toDateString(),
       });
+      getDataFromFirebase()
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -30,19 +35,27 @@ const Home = () => {
     title.current.value = ''
     task.current.value = ''
   }
-
-
   const getDataFromFirebase = async () => {
-const querySnapshot = await getDocs(collection(db, "users task"));
-querySnapshot.forEach((doc) => {
-  console.log(`${doc.id}}`);
-  console.log(doc.data());
-  
-  setData([...doc.data])
-});
+    const querySnapshot = await getDocs(collection(db, "users task"));
+    const task = []
+    querySnapshot.forEach((doc) => {
+      task.push({ id: doc.id, ...doc.data() })
+      console.log(`${doc.id}}`);
+      console.log(doc.data());
+    });
+    setData(task)
+  }
+  useEffect(() => {
+    getDataFromFirebase()
+  }, [])
+
+  const deleteData = async (id) =>{
+    await deleteDoc(doc(db, "users task", id));
+    getDataFromFirebase()
   }
 
-  getDataFromFirebase()
+
+
 
 
   return (
@@ -59,15 +72,26 @@ querySnapshot.forEach((doc) => {
       </div>
 
 
-      {
-  data.map((item,index) => {
-    return (
-      <div key={index}> {/* Assuming each item has a unique 'id' */}
-        <h1>{item.task}</h1> {/* Displaying item.task */}
+      <div className='flex justify-center items-center   flex-wrap gap-10  mt-10'>
+        {
+          data.map((item) => {
+            return (
+              <div key={item.id}>
+                <div className='bg-slate-600 mt-3 p-7 w-[400px] h-[200px]  rounded-lg text-center text-white'>
+                  <h1 className='text-2xl font-semibold '>Title : {item.title}</h1>
+                  <h1 className='text-xl font-semibold'>Task : {item.task.slice(0, 20)}....</h1>
+                  <h1 className='text-xl font-semibold'>{item.date}</h1>
+                  <div className='flex justify-center gap-10 mt-4'>
+                    <button className='btn btn-success'><MdModeEdit />
+                    </button>
+                    <button className='btn btn-error' onClick={()=> deleteData(item.id)}>Delete</button>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        }
       </div>
-    );
-  })
-}
 
 
     </>

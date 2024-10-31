@@ -39,7 +39,7 @@ const Register = () => {
             <button type="submit" className='btn btn-primary w-full'>Register</button>
           </form> <br />
           <div className='flex justify-center'>
-            <Link className='m-3' to='/login'>Already have an account </Link>
+            <Link className='m-3' to='/'>Already have an account </Link>
           </div>
         </div>
       </div>
