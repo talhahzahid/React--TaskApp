@@ -8,6 +8,7 @@ import Login from './Pages/Login.jsx'
 import Home from './Pages/Home.jsx'
 import Register from './Pages/Register.jsx'
 import NotFind from './Pages/NotFind.jsx'
+import Protectedroutes from './Components/Protectedroutes.jsx'
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
       },
       {
         path:'home',
-        element:<Home/>
+        element:<Protectedroutes component={<Home/>} />
       },
       {
         path:'*',

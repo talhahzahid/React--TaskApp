@@ -2,10 +2,10 @@ import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../Config/Firebase/Firebaseconfig';
+
+
 const Register = () => {
-
-  const [data, setData] = useState([])
-
+  
   const navigate = useNavigate()
   const email = useRef()
   const password = useRef()
