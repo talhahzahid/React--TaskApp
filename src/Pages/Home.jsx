@@ -6,6 +6,7 @@ import { MdModeEdit } from "react-icons/md";
 
 
 
+
 const Home = () => {
 
   const [data, setData] = useState([])
@@ -60,7 +61,6 @@ const Home = () => {
 
   return (
     <>
-      <h1 className='text-3xl font-serif text-center mt-7'>Task App</h1>
       <div className='flex justify-center items-center mt-[2rem]'>
         <div className='bg-slate-700 p-10 max-w-xs w-full rounded-lg shadow-2xl'>
           <form onSubmit={addTask} className='space-y-4'>
@@ -79,7 +79,7 @@ const Home = () => {
               <div key={item.id}>
                 <div className='bg-slate-600 mt-3 p-7 w-[400px] h-[200px]  rounded-lg text-center text-white'>
                   <h1 className='text-2xl font-semibold '>Title : {item.title}</h1>
-                  <h1 className='text-xl font-semibold'>Task : {item.task.slice(0, 20)}....</h1>
+                  <h1 className='text-xl font-semibold'>Task : {item.task.slice(0, 30)}....</h1>
                   <h1 className='text-xl font-semibold'>{item.date}</h1>
                   <div className='flex justify-center gap-10 mt-4'>
                     <button className='btn btn-success'><MdModeEdit />
@@ -99,3 +99,5 @@ const Home = () => {
 }
 
 export default Home
+
+

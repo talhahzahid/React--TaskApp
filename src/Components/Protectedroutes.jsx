@@ -14,6 +14,7 @@ const Protectedroutes = ({component}) => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                console.log(user);
                 setIsUser(true)
                 return
             }
